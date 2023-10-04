@@ -1,0 +1,22 @@
+.alinear {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: auto;
+}
+
+.colorBlue {
+    color: white;
+    background-color: #3f51b5;
+}
+
+ul li {
+    list-style: none;
+}
+
+.right{
+    margin-left: auto;
+}
+
+.center{
+    margin: auto;
+}

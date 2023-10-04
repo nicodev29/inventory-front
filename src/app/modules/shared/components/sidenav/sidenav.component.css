@@ -26,8 +26,11 @@ h1.app-name {
 }
 
 ul li {
- list-style: none; 
+  list-style: none;
+  display: flex;
+  align-items: center;
 }
+
 
 .profile-card{
   text-align: center;
@@ -40,7 +43,9 @@ ul li {
 
 .icono{
   margin-right: 10px;
+  vertical-align: middle;
 }
+
 
 div ul {
  display: flex;
