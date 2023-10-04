@@ -17,4 +17,15 @@ export class CategoryService {
     const endpoint = `${base_url}/categories`;
     return this.http.get(endpoint);
   }
+
+
+  /**
+   * 
+   * @returns Save a category
+   */
+  saveCategory(body: any) {
+    const endpoint = `${base_url}/categories/save`;
+    return this.http.post(endpoint, body);
+  }
+
 }

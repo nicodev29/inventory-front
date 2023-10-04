@@ -1,7 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatTab } from '@angular/material/tabs';
 import { CategoryService } from 'src/app/modules/shared/services/category.service';
+import { NewCategoryComponent } from '../new-category/new-category.component';
 
 @Component({
   selector: 'app-category',
@@ -11,6 +13,7 @@ import { CategoryService } from 'src/app/modules/shared/services/category.servic
 export class CategoryComponent implements OnInit{
 
   private categoryService = inject(CategoryService);
+  public dialog = inject(MatDialog);
 
   ngOnInit(): void {
     this.getCategories();
@@ -49,6 +52,16 @@ export class CategoryComponent implements OnInit{
       this.dataSource = new MatTableDataSource<CategoryElement>(dataCategory);
 
     }
+  }
+
+  openCategoryDialog() {
+    const dialogRef = this.dialog.open(NewCategoryComponent , {
+      width: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe(result =>{
+
+    });
 
   }
 
