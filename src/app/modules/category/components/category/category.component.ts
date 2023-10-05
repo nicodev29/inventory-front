@@ -4,6 +4,7 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatTab } from '@angular/material/tabs';
 import { CategoryService } from 'src/app/modules/shared/services/category.service';
 import { NewCategoryComponent } from '../new-category/new-category.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-category',
@@ -13,6 +14,7 @@ import { NewCategoryComponent } from '../new-category/new-category.component';
 export class CategoryComponent implements OnInit{
 
   private categoryService = inject(CategoryService);
+  private snackBar = inject(MatSnackBar);
   public dialog = inject(MatDialog);
 
   ngOnInit(): void {

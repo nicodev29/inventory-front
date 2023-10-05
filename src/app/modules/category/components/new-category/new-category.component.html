@@ -1,18 +1,18 @@
 <h2 mat-dialog-title> Agregar Categoria </h2>
 <mat-dialog-content>
 
-    <form>
+    <form [formGroup]="categoryForm">
 
         <div class="category-container">
 
             <mat-form-field>
-                <input matInput placeholder="Nombre" required>
+                <input matInput placeholder="Nombre" formControlName="name" required>
             </mat-form-field>
 
             <mat-form-field>
-                <textarea matInput placeholder="Descripcion" required></textarea>
+                <textarea matInput placeholder="Descripcion" formControlName="description" required></textarea>
             </mat-form-field>
-            
+
         </div>
 
     </form>
