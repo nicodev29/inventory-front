@@ -10,10 +10,9 @@ import { MatPaginator } from '@angular/material/paginator';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
-  styleUrls: ['./category.component.css']
+  styleUrls: ['./category.component.css'],
 })
-export class CategoryComponent implements OnInit{
-
+export class CategoryComponent implements OnInit {
   private categoryService = inject(CategoryService);
   private snackBar = inject(MatSnackBar);
   public dialog = inject(MatDialog);
@@ -26,29 +25,22 @@ export class CategoryComponent implements OnInit{
   dataSource = new MatTableDataSource<CategoryElement>();
 
   @ViewChild(MatPaginator)
-  paginator!: MatPaginator
+  paginator!: MatPaginator;
 
-
-  getCategories () : void {
-    this.categoryService.getCategories()
-    .subscribe( (data : any) => {
-
-      console.log("respuesta categorias: ", data);
+  getCategories(): void {
+    this.categoryService.getCategories().subscribe((data: any) => {
+      console.log('respuesta categorias: ', data);
       this.processCategoriesResponse(data);
-
     }),
-    (error : any) => { 
-        console.log("error categorias: ", error);
-      }
-
+      (error: any) => {
+        console.log('error categorias: ', error);
+      };
   }
 
-  processCategoriesResponse (resp: any){
-
+  processCategoriesResponse(resp: any) {
     const dataCategory: CategoryElement[] = [];
 
-    if (resp.metadata[0].code == "00"){
-
+    if (resp.metadata[0].code == '00') {
       let listCategory = resp.categoryResponse.category;
 
       listCategory.forEach((element: CategoryElement) => {
@@ -62,16 +54,23 @@ export class CategoryComponent implements OnInit{
   }
 
   openCategoryDialog() {
-    const dialogRef = this.dialog.open(NewCategoryComponent , {
+    const dialogRef = this.dialog.open(NewCategoryComponent, {
       width: '500px',
     });
 
-    dialogRef.afterClosed().subscribe(result =>{
-
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == 1) {
+        this.snackBar.open('Se ha creado la categoría', 'Exito',{
+          duration: 1000,
+        });
+        this.getCategories();
+      } else if (result == 2) {
+        this.snackBar.open('No se ha creado la categoría', 'Error', {
+          duration: 1000,
+        });
+      }
     });
-
   }
-
 }
 
 export interface CategoryElement {
