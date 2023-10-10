@@ -54,6 +54,7 @@ export class CategoryComponent implements OnInit {
   }
 
   openCategoryDialog() {
+
     const dialogRef = this.dialog.open(NewCategoryComponent, {
       width: '500px',
     });
@@ -70,6 +71,28 @@ export class CategoryComponent implements OnInit {
         });
       }
     });
+  }
+
+  edit(id:number, name:string, description:string){
+
+    const dialogRef = this.dialog.open(NewCategoryComponent, {
+      width: '500px',
+      data: {id: id, name: name, description: description},
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == 1) {
+        this.snackBar.open('Se ha actualizado la categoria', 'Exito',{
+          duration: 1000,
+        });
+        this.getCategories();
+      } else if (result == 2) {
+        this.snackBar.open('No se ha actualizado', 'Error', {
+          duration: 1000,
+        });
+      }
+    });
+
   }
 }
 
