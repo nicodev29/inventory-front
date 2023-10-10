@@ -6,6 +6,7 @@ import { CategoryService } from 'src/app/modules/shared/services/category.servic
 import { NewCategoryComponent } from '../new-category/new-category.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
+import { ConfirmComponent } from 'src/app/modules/shared/componentes/confirm/confirm.component';
 
 @Component({
   selector: 'app-category',
@@ -94,6 +95,29 @@ export class CategoryComponent implements OnInit {
     });
 
   }
+
+  delete(id:number){
+
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data: {id: id},
+      width: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == 1) {
+        this.snackBar.open('Se ha eliminado la categoria', 'Exito',{
+          duration: 1000,
+        });
+        this.getCategories();
+      } else if (result == 2) {
+        this.snackBar.open('No se ha eliminado', 'Error', {
+          duration: 1000,
+        });
+      }
+    });
+
+  }
+
 }
 
 export interface CategoryElement {

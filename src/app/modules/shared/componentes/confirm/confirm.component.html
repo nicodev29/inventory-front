@@ -1,0 +1,19 @@
+<h1 mat-dialog-title> Confirmacion</h1>
+
+<div mat-dialog-content>
+
+    <p>¿Estas seguro de eliminar la categoria?</p> 
+
+</div>
+
+<div mat-dialog-actions>
+
+    <button mat-button color="primary" (click)="delete()">
+        <mat-icon>done</mat-icon>Si
+    </button>
+
+    <button mat-button color="primary" (click)="onNoClick()">
+        <mat-icon>cancel</mat-icon>No
+    </button>
+
+</div>
