@@ -118,6 +118,22 @@ export class CategoryComponent implements OnInit {
 
   }
 
+
+  buscar(termino: string) {
+
+    if (termino.length === 0) {
+      return this.getCategories();
+    }
+
+    this.categoryService.getCategoryByName(termino)
+    .subscribe((data: any) => {
+      console.log('respuesta categorias: ', data);
+      this.processCategoriesResponse(data);
+    }),
+      (error: any) => {
+        console.log('error categorias: ', error);
+      };
+  }
 }
 
 export interface CategoryElement {
