@@ -57,7 +57,6 @@ export class NewProductComponent {
   }
 
 
-
   onSave (){
 
     
@@ -76,7 +75,24 @@ export class NewProductComponent {
     uploadImageData.append('quantity', data.quantity);
     uploadImageData.append('categoryID', data.category);
 
+    if (this.data != null) {
 
+      //update the product
+      this.productService.updateProduct(uploadImageData, this.data.id)
+      .subscribe ({
+        next: (data : any) => {
+          console.log("respuesta producto: ", data)
+          this.dialogRef.close(1);
+        },
+        error: (error:any) => {
+          this.dialogRef.close(2);
+        }
+      });
+
+
+    } else {
+
+      //save the product
       this.productService.saveProduct(uploadImageData)
       .subscribe ({
         next: (data : any) => {
@@ -87,7 +103,7 @@ export class NewProductComponent {
           this.dialogRef.close(2);
         }
       });
-    
+    }
 
   }
 
@@ -104,7 +120,13 @@ export class NewProductComponent {
   }
 
   updateForm(data: any) {
-    throw new Error('Method not implemented.');
+      this.productForm = this.fb.group({
+        name: [data.name, Validators.required],
+        price: [data.price, Validators.required],
+        quantity: [data.quantity, Validators.required],
+        category: [data.category.id, Validators.required],
+        image: ["", Validators.required]
+    });
   }
 
 

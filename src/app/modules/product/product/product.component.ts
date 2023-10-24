@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { NewProductComponent } from '../new-product/new-product.component';
+import { ConfirmComponent } from '../../shared/componentes/confirm/confirm.component';
 
 
 @Component({
@@ -54,7 +55,7 @@ export class ProductComponent implements OnInit{
 
       if (listProduct) {
         listProduct.forEach((element: ProductElement) => {
-          element.category = element.category.name;
+          //element.category = element.category.name;
           element.image = element.image ? 'data:image/jpeg;base64,' + element.image : '';
           dataProduct.push(element);
         });
@@ -89,10 +90,44 @@ export class ProductComponent implements OnInit{
     });
   }
 
-  delete (id: number) {
+  delete(id: number) {
+
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data: {id: id, module: "product"},
+      width: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == 1) {
+        this.snackBar.open('Se ha eliminado el producto', 'Exito',{
+          duration: 1000,
+        });
+        this.getProducts();
+      } else if (result == 2) {
+        this.snackBar.open('No se ha eliminado el producto', 'Error', {
+          duration: 1000,
+        });
+      }
+    });
+   
   }
 
-  edit (id: number, name: string) {
+  edit (id: number, name: string, price: number, quantity: number, category: any) {
+
+    const dialogRef = this.dialog.open(NewProductComponent, {
+      width: '500px',
+      data: {id: id, name: name, price: price, quantity: quantity, category: category},
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+
+      if (result == 1) {
+        this.openSnackBar('Producto editado', 'Exito');
+        this.getProducts();
+      } else if (result == 2) {
+        this.openSnackBar('No se logro editar el producto', 'Error',);
+      }
+    });
   }
 
 

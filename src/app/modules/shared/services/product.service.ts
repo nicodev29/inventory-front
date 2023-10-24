@@ -7,6 +7,7 @@ const base_url = 'http://localhost:8080/api/v1';
   providedIn: 'root'
 })
 export class ProductService {
+ 
 
   
   constructor(private http: HttpClient) { }
@@ -21,9 +22,13 @@ export class ProductService {
     return this.http.post(endpoint, body);
   }
 
-  updateProduct(data: { name: any; description: any; quantity: any; category: any; image: any; }, id: any) {
-    const endpoint = `${base_url}/products/update/${id}`;
-    return this.http.put(endpoint, data);
+  updateProduct(body:any, id: any) {
+    const endpoint = `${base_url}/update/products/${id}`;
+    return this.http.put(endpoint, body);
   }
 
+  deleteProduct(id: any) {
+    const endpoint = `${base_url}/products/${id}`;
+    return this.http.delete(endpoint);
+  }
 }
