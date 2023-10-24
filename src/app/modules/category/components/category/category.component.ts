@@ -29,7 +29,8 @@ export class CategoryComponent implements OnInit {
   paginator!: MatPaginator;
 
   getCategories(): void {
-    this.categoryService.getCategories().subscribe((data: any) => {
+    this.categoryService.getCategories()
+      .subscribe((data: any) => {
       console.log('respuesta categorias: ', data);
       this.processCategoriesResponse(data);
     }),
