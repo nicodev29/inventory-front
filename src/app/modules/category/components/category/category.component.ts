@@ -85,10 +85,10 @@ export class CategoryComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
 
       if (result == 1) {
-        this.openSnackBar('Se ha creado el Producto', 'Exito');
+        this.openSnackBar('Se ha actualizado la categoria', 'Exito');
         this.getCategories();
       } else if (result == 2) {
-        this.openSnackBar('No se ha creado el producto', 'Error',);
+        this.openSnackBar('No se ha actualizado la categoria', 'Error',);
       }
     });
 

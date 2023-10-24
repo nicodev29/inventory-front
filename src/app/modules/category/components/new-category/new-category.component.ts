@@ -36,40 +36,29 @@ export class NewCategoryComponent implements OnInit {
 
   }
 
-  onSave(){
-
+  onSave() {
     let data = {
       name: this.categoryForm.get('name')?.value,
       description: this.categoryForm.get('description')?.value
     }
-
-    if(this.data != null){
-
-      this.categoryService.updateCategorie(data, this.data.id)
-      .subscribe ({
-        next: (data : any) => {
-          console.log("respuesta categorias: ", data)
-          this.dialogRef.close(1);
-        },
-        error: (error:any) => {
-          this.dialogRef.close(2);
+  
+    const apiCall = this.data != null ? 
+      this.categoryService.updateCategorie(data, this.data.id) : 
+      this.categoryService.saveCategory(data);
+  
+    apiCall.subscribe({
+      next: (data: any) => {
+        console.log("respuesta categorias: ", data);
+        this.dialogRef.close(1);
+      },
+      error: (error: any) => {
+        console.log("Error: ", error);
+        if (error.status == 400 && error.error.metadata.code == "01" && error.error.metadata.code == "00") {
+          alert("Ya existe una categoría con este nombre.");
         }
-      });
-
-    }else{
-    
-      this.categoryService.saveCategory(data)
-      .subscribe ({
-        next: (data : any) => {
-          console.log("respuesta categorias: ", data)
-          this.dialogRef.close(1);
-        },
-        error: (error:any) => {
-          this.dialogRef.close(2);
-        }
-      });
-    }
-
+        this.dialogRef.close(2);
+      }
+    });
   }
 
     onCancel(){
