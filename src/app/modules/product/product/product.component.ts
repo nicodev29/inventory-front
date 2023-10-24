@@ -3,7 +3,8 @@ import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { ProductService } from '../../shared/services/product.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
+import { NewProductComponent } from '../new-product/new-product.component';
 
 
 @Component({
@@ -43,6 +44,7 @@ export class ProductComponent implements OnInit{
       });
   }
 
+
   processProductResponse (resp:any){
     const dataProduct: ProductElement[] = [];
 
@@ -62,6 +64,29 @@ export class ProductComponent implements OnInit{
       }
     }
 
+  }
+
+  openProductDialog(){
+    const dialogRef = this.dialog.open(NewProductComponent, {
+      width: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+
+      if (result == 1) {
+        this.openSnackBar('Se ha creado el Producto', 'Exito');
+        this.getProducts();
+      } else if (result == 2) {
+        this.openSnackBar('No se ha creado el producto', 'Error',);
+      }
+    });
+
+  }
+
+  openSnackBar(message: string, action: string) : MatSnackBarRef<SimpleSnackBar> {
+    return this.snackBar.open(message, action, {
+      duration: 1000,
+    });
   }
 
   delete (id: number) {

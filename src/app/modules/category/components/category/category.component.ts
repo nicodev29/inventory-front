@@ -4,7 +4,7 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatTab } from '@angular/material/tabs';
 import { CategoryService } from 'src/app/modules/shared/services/category.service';
 import { NewCategoryComponent } from '../new-category/new-category.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
 import { ConfirmComponent } from 'src/app/modules/shared/componentes/confirm/confirm.component';
 
@@ -83,18 +83,21 @@ export class CategoryComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+
       if (result == 1) {
-        this.snackBar.open('Se ha actualizado la categoria', 'Exito',{
-          duration: 1000,
-        });
+        this.openSnackBar('Se ha creado el Producto', 'Exito');
         this.getCategories();
       } else if (result == 2) {
-        this.snackBar.open('No se ha actualizado', 'Error', {
-          duration: 1000,
-        });
+        this.openSnackBar('No se ha creado el producto', 'Error',);
       }
     });
 
+  }
+
+  openSnackBar(message: string, action: string) : MatSnackBarRef<SimpleSnackBar> {
+    return this.snackBar.open(message, action, {
+      duration: 1000,
+    });
   }
 
   delete(id:number){
