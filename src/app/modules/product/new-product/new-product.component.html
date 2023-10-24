@@ -28,21 +28,19 @@
     
 
             <div>
-
                 <mat-label></mat-label>
-                <label for="file-upload" class="subir">
+                <label class="subir">
                     Subir imagen
+                    <input  id="file-upload" 
+                            type="file" 
+                            accept="image/png, image/jpeg"
+                            (change)="onFileChange($event)"
+                            formControlName="image"
+                            class="input-file"/>
                 </label>
-
-                <input  id="file-upload" 
-                        type="file" 
-                        accept="image/png, image/jpeg"
-                        (change)="onFileChange($event)"
-                        formControlName="image"
-                        class="input-file"
-                        required>
-                        <span>{{nameImg}}</span>
+                <span>{{nameImg}}</span>
             </div>
+            
             
         </div>
     

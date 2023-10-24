@@ -63,38 +63,31 @@ export class NewProductComponent {
     
     let data = {
       name: this.productForm.get('name')?.value,
-      description: this.productForm.get('price')?.value,
+      price: this.productForm.get('price')?.value,
       quantity: this.productForm.get('quantity')?.value,
       category: this.productForm.get('category')?.value,
-      image: this.productForm.get('image')?.value
+      image: this.selectedFile
     }
 
-    if(this.data != null){
+    const uploadImageData = new FormData();
+    uploadImageData.append('file',data.image, data.image.name);
+    uploadImageData.append('name', data.name);
+    uploadImageData.append('price', data.price);
+    uploadImageData.append('quantity', data.quantity);
+    uploadImageData.append('categoryID', data.category);
 
-      this.categoryService.updateCategorie(data, this.data.id)
+
+      this.productService.saveProduct(uploadImageData)
       .subscribe ({
         next: (data : any) => {
-          console.log("respuesta categorias: ", data)
+          console.log("respuesta producto: ", data)
           this.dialogRef.close(1);
         },
         error: (error:any) => {
           this.dialogRef.close(2);
         }
       });
-
-    }else{
     
-      this.categoryService.saveCategory(data)
-      .subscribe ({
-        next: (data : any) => {
-          console.log("respuesta categorias: ", data)
-          this.dialogRef.close(1);
-        },
-        error: (error:any) => {
-          this.dialogRef.close(2);
-        }
-      });
-    }
 
   }
 
@@ -114,13 +107,14 @@ export class NewProductComponent {
     throw new Error('Method not implemented.');
   }
 
-  onFileChange(event : any){
 
-    this.selectedFile = event.target.files[0];
-    this.nameImg = event.target.files[0].name;
-    this.productForm.get('image')?.setValue(this.nameImg);
-
+    onFileChange(event : any){
+      this.selectedFile = event.target.files[0];
+      this.nameImg = this.selectedFile.name;  // Aquí asignamos el nombre del archivo a la variable nameImg
+      this.productForm.get('image')?.setValue(this.selectedFile);  // Aquí cambiamos 'file' por 'image' para que coincida con el formControlName en tu HTML
+      console.log("imagen: ", this.selectedFile);
   }
-
-
+  
 }
+  
+
