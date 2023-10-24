@@ -30,6 +30,8 @@ export class NewProductComponent {
   categories: Category [] = [];
   public dialog = inject(MatDialog);
 
+  selectedFile: any;
+  nameImg: string = "";
 
 
 
@@ -110,6 +112,14 @@ export class NewProductComponent {
 
   updateForm(data: any) {
     throw new Error('Method not implemented.');
+  }
+
+  onFileChange(event : any){
+
+    this.selectedFile = event.target.files[0];
+    this.nameImg = event.target.files[0].name;
+    this.productForm.get('image')?.setValue(this.nameImg);
+
   }
 
 
