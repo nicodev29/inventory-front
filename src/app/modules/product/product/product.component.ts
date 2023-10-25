@@ -32,40 +32,68 @@ export class ProductComponent implements OnInit{
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
-  getProducts (){
+  getProducts() {
+    console.log('Iniciando getProducts');  // Agregado para depuración
     this.productService.getProducts()
       .subscribe({
         next: (data: any) => {
-          console.log('respuesta productos: ', data);
-          this.processProductResponse(data);
+          console.log('Respuesta de productos recibida:', data);  // Agregado para depuración
+  
+          // Verifica si la respuesta es válida y contiene productos
+          if (data && data.productResponse && data.productResponse.products !== null) {
+            this.processProductResponse(data);
+          } else {
+            console.log('No se encontraron productos');  // Manejo cuando no hay productos
+            // Aquí puedes decidir qué hacer cuando no hay productos, por ejemplo, mostrar un mensaje al usuario
+          }
         },
         error: (error: any) => {
-          console.log('error productos: ', error);
+          console.log('Error al obtener productos:', error);  // Agregado para depuración
+          console.log('Código de estado HTTP:', error.status);  // Agregado para depuración
+          console.log('Mensaje de error:', error.message);  // Agregado para depuración
+          console.log('Detalles del error:', error.error);  // Agregado para depuración
+  
+          // Aquí puedes agregar más manejo de errores específicos basado en el código de estado o el mensaje de error
+          if (error.status === 404) {
+            // Manejo específico para el error 404
+            // Mostrar un mensaje al usuario o tomar alguna otra acción
+          } else {
+            // Manejo general para otros errores
+            // Mostrar un mensaje al usuario o tomar alguna otra acción
+          }
         }
       });
   }
+  
+  
+  
 
 
-  processProductResponse (resp:any){
+  processProductResponse(resp: any) {
+    console.log('Iniciando processProductResponse con respuesta:', resp);  // Agregado para depuración
     const dataProduct: ProductElement[] = [];
-
-    if (resp && resp.metadata && resp.metadata[0] && resp.metadata[0].code == '00') {
-      // Cambia resp.product.products a resp.productResponse.products o la ruta correcta
+  
+    if (resp && resp.metadata && resp.metadata[0] && resp.metadata[0].code === '00') {
+      console.log('Metadatos validados');  // Agregado para depuración
       let listProduct = resp.productResponse && resp.productResponse.products;
-
+  
       if (listProduct) {
+        console.log('Lista de productos recibida:', listProduct);  // Agregado para depuración
         listProduct.forEach((element: ProductElement) => {
-          //element.category = element.category.name;
           element.image = element.image ? 'data:image/jpeg;base64,' + element.image : '';
           dataProduct.push(element);
         });
-
+  
         this.dataSource = new MatTableDataSource<ProductElement>(dataProduct);
         this.dataSource.paginator = this.paginator;
+      } else {
+        console.log('Lista de productos está vacía o indefinida');  // Agregado para depuración
       }
+    } else {
+      console.log('Metadatos no validados');  // Agregado para depuración
     }
-
   }
+  
 
   openProductDialog(){
     const dialogRef = this.dialog.open(NewProductComponent, {
@@ -128,6 +156,22 @@ export class ProductComponent implements OnInit{
         this.openSnackBar('No se logro editar el producto', 'Error',);
       }
     });
+  }
+
+  getProductByName(termino: string) {
+
+    if (termino.length === 0) {
+      return this.getProducts();
+    }
+
+    this.productService.getProductByName(termino)
+    .subscribe((data: any) => {
+      console.log('respuesta producto: ', data);
+      this.processProductResponse(data);
+    }),
+      (error: any) => {
+        console.log('error producto: ', error);
+      };
   }
 
 
