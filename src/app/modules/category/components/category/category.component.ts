@@ -7,6 +7,7 @@ import { NewCategoryComponent } from '../new-category/new-category.component';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
 import { ConfirmComponent } from 'src/app/modules/shared/componentes/confirm/confirm.component';
+import { UtilService } from 'src/app/modules/shared/services/util.service';
 
 @Component({
   selector: 'app-category',
@@ -14,12 +15,18 @@ import { ConfirmComponent } from 'src/app/modules/shared/componentes/confirm/con
   styleUrls: ['./category.component.css'],
 })
 export class CategoryComponent implements OnInit {
+
+  isAdmin : any;
+
   private categoryService = inject(CategoryService);
   private snackBar = inject(MatSnackBar);
   public dialog = inject(MatDialog);
+  private util = inject(UtilService);
+
 
   ngOnInit(): void {
     this.getCategories();
+    this.isAdmin = this.util.isAdmin();
   }
 
   displayedColumns: string[] = ['id', 'name', 'description', 'actions'];
